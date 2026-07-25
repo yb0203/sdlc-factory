@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://factory.ai-sdlc.io/schemas/v1/edge.schema.json",
+  "title": "Edge",
+  "description": "Provably MECE directional relationship graph edge primitive across 4 dimensions",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "dimension": {
+      "type": "string",
+      "enum": ["SPACE", "TIME", "CONTRACT", "LIFECYCLE"],
+      "description": "Orthogonal MECE Edge Dimension"
+    },
+    "edgeType": {
+      "type": "string",
+      "enum": [
+        "REQUIRES", "CONFLICTS", "COMPOSES",
+        "SEQUENCE", "BLOCKS", "PARALLEL_WITH",
+        "GOVERNS", "DERIVES_FROM",
+        "AMENDS", "SUPERSEDES"
+      ],
+      "description": "Exact MECE Edge Type"
+    },
+    "sourceId": {
+      "type": "string",
+      "description": "Source Entity/Contract/Delta ID"
+    },
+    "targetId": {
+      "type": "string",
+      "description": "Target Entity/Contract/Delta ID"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional edge metadata (e.g. lag days, condition expressions)"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["id", "dimension", "edgeType", "sourceId", "targetId"]
+}

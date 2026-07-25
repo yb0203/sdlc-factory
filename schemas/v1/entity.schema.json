@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://factory.ai-sdlc.io/schemas/v1/entity.schema.json",
+  "title": "Entity",
+  "description": "Structural domain model object primitive in the SDLC Factory",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the Entity instance"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the domain entity (e.g. Member, Book, Loan)"
+    },
+    "domain": {
+      "type": "string",
+      "description": "Domain or Bounded Context (e.g. LibraryManagement, Payments)"
+    },
+    "attributes": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Attributes and field definitions for this entity"
+    },
+    "isPrototype": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this entity acts as a prototype for cloning (ADR-002)"
+    },
+    "prototypeId": {
+      "type": ["string", "null"],
+      "default": null,
+      "description": "ID of parent prototype if cloned from another entity"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["DRAFT", "PENDING", "ACTIVE", "IN_REVIEW", "ON_HOLD", "COMPLETED", "CANCELED", "ARCHIVED"],
+      "default": "DRAFT"
+    },
+    "position": {
+      "type": "integer",
+      "description": "Gapped position key for deterministic sort order (10, 20, 30...)"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["id", "name", "domain", "attributes", "status", "position"]
+}

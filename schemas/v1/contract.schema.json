@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://factory.ai-sdlc.io/schemas/v1/contract.schema.json",
+  "title": "Contract",
+  "description": "Declarative system rules/policies AND proposal dual-state primitive across 4 MECE facets",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["BEHAVIOR", "CONTRACT", "POLICY", "OPERATIONAL"],
+      "description": "Provably MECE facet classification"
+    },
+    "title": {
+      "type": "string"
+    },
+    "liveContent": {
+      "type": ["string", "object"],
+      "description": "Active enforced specification content or rule"
+    },
+    "proposedContent": {
+      "type": ["string", "object", "null"],
+      "default": null,
+      "description": "Pending proposed modification, redline, or PR diff"
+    },
+    "proposalStatus": {
+      "type": "string",
+      "enum": ["NONE", "PROPOSED", "COUNTERED", "ACCEPTED", "REJECTED", "LOCKED"],
+      "default": "NONE"
+    },
+    "isHardGuardrail": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, non-negotiable security/test gate; if false, negotiable policy parameter"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["DRAFT", "PENDING", "ACTIVE", "IN_REVIEW", "ON_HOLD", "COMPLETED", "CANCELED", "ARCHIVED"],
+      "default": "ACTIVE"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["id", "type", "title", "liveContent", "proposalStatus", "isHardGuardrail"]
+}

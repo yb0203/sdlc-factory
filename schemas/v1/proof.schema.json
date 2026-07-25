@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://factory.ai-sdlc.io/schemas/v1/proof.schema.json",
+  "title": "Proof",
+  "description": "Mathematical formal verification and cryptographic attestation seal primitive",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "facet": {
+      "type": "string",
+      "enum": ["FORMAL_MATHEMATICAL", "CRYPTOGRAPHIC_ATTESTATION"],
+      "description": "Proof facet (DoR/compile time SMT math vs DoD release DSSE seal)"
+    },
+    "targetId": {
+      "type": "string",
+      "description": "Target Entity, Contract, Delta, or Project ID"
+    },
+    "solverEngine": {
+      "type": "string",
+      "enum": ["Z3_SMT", "TARJAN_DAG", "MECE_PARTITION", "DSSE_ECDSA", "AIBOM_MERKLE"],
+      "description": "Specific proof solver or cryptographic algorithm"
+    },
+    "theoremExpression": {
+      "type": "string",
+      "description": "Formal logic invariant or SMT expression certified by this proof"
+    },
+    "counterExample": {
+      "type": ["string", "null"],
+      "default": null,
+      "description": "Solver counter-example string if status is DISPROVED"
+    },
+    "signatureSeal": {
+      "type": ["string", "null"],
+      "default": null,
+      "description": "DSSE cryptographic signature or AIBOM Merkle hash"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PROVING", "PROVED", "DISPROVED", "ESCALATED"],
+      "default": "PROVING"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["id", "facet", "targetId", "solverEngine", "status"]
+}

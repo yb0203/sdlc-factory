@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://factory.ai-sdlc.io/schemas/v1/activity.schema.json",
+  "title": "Activity",
+  "description": "Immutable event, agent reasoning thought stream, and audit trail log entry",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "entityId": {
+      "type": "string",
+      "description": "Target primitive entity ID this activity belongs to"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "STATUS_CHANGE", "PROPOSAL_CHANGE", "COMPILATION_EVENT",
+        "AGENT_THOUGHT", "TOOL_EXECUTION", "GATE_VERIFICATION",
+        "PROOF_VERIFICATION", "LEARNING_EXTRACTED", "AMENDMENT_INITIATED"
+      ],
+      "description": "Activity event type"
+    },
+    "actorId": {
+      "type": "string",
+      "description": "User ID, Agent Role (e.g. 'architect-agent'), or System runner ID"
+    },
+    "content": {
+      "type": "string",
+      "description": "Log summary, agent thought string, or event description"
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Structured event payload (tool args, command diffs, attestation seals)"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["id", "entityId", "type", "actorId", "content", "timestamp"]
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://factory.ai-sdlc.io/schemas/v1/delta.schema.json",
+  "title": "Delta",
+  "description": "Unit of executable state mutation primitive (codegen, migration, test, build, deploy)",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the execution delta task"
+    },
+    "entityId": {
+      "type": ["string", "null"],
+      "description": "Target Entity ID this delta mutates"
+    },
+    "deltaType": {
+      "type": "string",
+      "enum": ["CODEGEN", "DB_MIGRATION", "BUILD_JOB", "TEST_EXECUTION", "INFRA_PROVISION", "REFACTOR"],
+      "description": "Category of state mutation"
+    },
+    "isGate": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this delta represents a mandatory quality review gate"
+    },
+    "gateStatus": {
+      "type": "string",
+      "enum": ["NOT_APPLICABLE", "PENDING", "PASSED", "FAILED", "WAIVED"],
+      "default": "NOT_APPLICABLE"
+    },
+    "durationDays": {
+      "type": "integer",
+      "default": 1
+    },
+    "costCents": {
+      "type": "integer",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": ["DRAFT", "PENDING", "ACTIVE", "IN_REVIEW", "ON_HOLD", "COMPLETED", "CANCELED", "ARCHIVED"],
+      "default": "PENDING"
+    },
+    "position": {
+      "type": "integer",
+      "description": "Gapped WBS position key (10, 20, 30...)"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["id", "title", "deltaType", "isGate", "status", "position"]
+}
