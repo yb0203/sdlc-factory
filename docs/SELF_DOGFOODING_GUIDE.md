@@ -13,7 +13,7 @@ The `sdlc-factory` repository is its own first domain instance, using its own 5 
 ┌────────────────────────────────────────────────────────────────────────┐
 │                   SELF-DOGFOODING EXECUTION LOOP                       │
 ├────────────────────────────────────────────────────────────────────────┤
-│ 1. Self-Domain Model (.zuzu/domain/sdlc_factory.yaml)                 │
+│ 1. Self-Domain Model (.factory/domain/sdlc_factory.yaml)              │
 │    - The factory repository self-describes its own entities in YAML.   │
 ├────────────────────────────────────────────────────────────────────────┤
 │ 2. agy-factory Compile                                                 │
@@ -34,9 +34,9 @@ The `sdlc-factory` repository is its own first domain instance, using its own 5 
 
 ---
 
-## 2. Step 1: Self-Domain Model (`.zuzu/domain/sdlc_factory.yaml`)
+## 2. Step 1: Self-Domain Model (`.factory/domain/sdlc_factory.yaml`)
 
-The factory self-describes its own architecture in `.zuzu/domain/sdlc_factory.yaml`:
+The factory self-describes its own architecture in `.factory/domain/sdlc_factory.yaml`:
 
 ```yaml
 apiVersion: factory.domain/v1

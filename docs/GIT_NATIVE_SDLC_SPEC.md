@@ -15,7 +15,7 @@ Every primitive in our 5-Primitive Core Taxonomy (`Entity`, `Delta`, `Contract`,
 ├───────────────────┬────────────────────────────────────────────────────┤
 │ SDLC Primitive    │ Native Git Construct                               │
 ├───────────────────┼────────────────────────────────────────────────────┤
-│ Entity & Contract │ Tracked `.yaml` / `.json` files in `.zuzu/domain/`  │
+│ Entity & Contract │ Tracked `.yaml` / `.json` files in `.factory/domain/`│
 │ Delta             │ Isolated Git Worktree (`.worktrees/delta-<id>`)     │
 │ Edge              │ DAG relationships declared in YAML / Commit Graph  │
 │ Proof             │ Signed Git Tag (`git tag -s`) & DSSE Attestation  │
@@ -28,7 +28,7 @@ Every primitive in our 5-Primitive Core Taxonomy (`Entity`, `Delta`, `Contract`,
 
 ## 2. The 6 Pillars of Git-Native Architecture
 
-### 1. Files & Trees as Domain Entities (`.zuzu/domain/`)
+### 1. Files & Trees as Domain Entities (`.factory/domain/`)
 - Domain entities, contracts, and policies live in version-controlled `.yaml` files.
 - Any change to an entity or rule is captured as a `git diff`.
 - Git commits provide monotonic, cryptographically signed state history out of the box.
@@ -63,21 +63,3 @@ Every primitive in our 5-Primitive Core Taxonomy (`Entity`, `Delta`, `Contract`,
   ```bash
   git tag -s v1.0.0-proof-smt-pass -m "Z3 SMT Invariant Proved & DSSE Signed"
   ```
-
----
-
-## 3. Git-Native CLI Workflow
-
-```bash
-# 1. Initialize Git-Native SDLC Environment
-agy-factory git init-hooks
-
-# 2. Spawn Isolated Agent Worktree for a Delta
-agy-factory git spawn-worktree --delta-id "delta-10" --branch "delta/fine-calculator"
-
-# 3. Append Agent Reasoning to Git Notes
-agy-factory git log-thought --message "Z3 SMT Invariant Proved" --commit HEAD
-
-# 4. Seal DoD Gate with Signed Git Tag
-agy-factory git seal-proof --target-id "Loan" --type "DSSE_ECDSA"
-```
