@@ -1,0 +1,34 @@
+apiVersion: factory.domain/v1
+kind: EntitySpecification
+metadata:
+  name: SDLCFactoryEngine
+  domain: SDLCFactory
+spec:
+  attributes:
+    version: "0.1.0"
+    primitives:
+      - Entity
+      - Delta
+      - Contract
+      - Edge
+      - Proof
+    gitNative: true
+    solverEngine: Z3_SMT
+    language: Python
+
+  # SELF-REFERENTIAL MECE EDGES
+  links:
+    - dimension: SPACE
+      type: REQUIRES
+      target: MECEEdgeEngine
+      invariant: "SDLCFactoryEngine requires MECEEdgeEngine for DAG checks."
+
+    - dimension: SPACE
+      type: REQUIRES
+      target: FormalProofVerifier
+      invariant: "SDLCFactoryEngine requires FormalProofVerifier for Z3 SMT math."
+
+    - dimension: CONTRACT
+      type: GOVERNS
+      target: DefinitionOfDonePolicy
+      invariant: "DoD policy governs all PR releases."

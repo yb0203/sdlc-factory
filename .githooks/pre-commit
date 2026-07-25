@@ -1,0 +1,21 @@
+#!/bin/bash
+# DoR Pre-Commit Hook for SDLC Factory
+# Runs pytest test suite and Z3 SMT solver formal invariant proof verification before allowing git commit.
+
+set -e
+
+echo "🔬 [DoR Pre-Commit Gate] Running Pytest suite..."
+if [ -d ".venv" ]; then
+    .venv/bin/pytest --quiet
+else
+    python3 -m pytest --quiet
+fi
+
+echo "🔬 [DoR Pre-Commit Gate] Running Z3 SMT Solver Invariant Verification..."
+if [ -d ".venv" ]; then
+    .venv/bin/agy-factory prove --name "SDLCFactoryEngine"
+else
+    python3 -m sdlc_factory.cli prove --name "SDLCFactoryEngine"
+fi
+
+echo "✅ [DoR Pre-Commit Gate] ALL CHECKS PASSED cleanly!"
