@@ -1,12 +1,19 @@
 # 📖 Domain-Model Centric SDLC Factory Documentation Hub
 
-Welcome to the **Domain-Model Centric SDLC Factory** documentation suite. The architecture, standards, proofs, retrospective analysis, ADRs, compiler patterns, Git-Native engine, self-dogfooding guide, and opinionated human frameworks are compiled into a clean specification set:
+Welcome to the **Domain-Model Centric SDLC Factory** documentation suite. The architecture, standards, proofs, retrospective analysis, ADRs, compiler patterns, Git-Native engine, self-dogfooding guide, developer experience (DX), and opinionated human frameworks are compiled into a clean specification set:
+
+---
+
+## 💻 Developer Experience (DX) Guide
+📄 **[DEVELOPER_EXPERIENCE_SPEC.md](file:///Users/hkc/Documents/software-factory/docs/DEVELOPER_EXPERIENCE_SPEC.md)**
+- **New Project Initiation**: `agy-factory init --name "PaymentGateway" --prompt "..."` (< 10 seconds).
+- **Existing Project Onboarding**: `agy-factory onboard` (< 30 seconds).
 
 ---
 
 ## 🐕 Self-Dogfooding Guide
 📄 **[SELF_DOGFOODING_GUIDE.md](file:///Users/hkc/Documents/software-factory/docs/SELF_DOGFOODING_GUIDE.md)**
-- **Self-Domain Spec**: [.zuzu/domain/sdlc_factory.yaml](file:///Users/hkc/Documents/software-factory/.zuzu/domain/sdlc_factory.yaml)
+- **Self-Domain Spec**: [.factory/domain/sdlc_factory.yaml](file:///Users/hkc/Documents/software-factory/.factory/domain/sdlc_factory.yaml)
 - **DoR Pre-Commit Gate**: [.githooks/pre-commit](file:///Users/hkc/Documents/software-factory/.githooks/pre-commit)
 - Every feature commit automatically runs **Pytest** + **Z3 SMT Formal Proofs** before allowing `git commit`!
 
@@ -14,7 +21,7 @@ Welcome to the **Domain-Model Centric SDLC Factory** documentation suite. The ar
 
 ## 🐙 Git-Native Architecture Specification
 📄 **[GIT_NATIVE_SDLC_SPEC.md](file:///Users/hkc/Documents/software-factory/docs/GIT_NATIVE_SDLC_SPEC.md)**
-- **Git Trees & Files**: Domain entities & specs in `.zuzu/domain/*.yaml`.
+- **Git Trees & Files**: Domain entities & specs in `.factory/domain/*.yaml`.
 - **Git Worktrees**: Ephemeral agent sandboxes (`.worktrees/delta-<id>`).
 - **Git Notes (`git notes`)**: Immutable Activity audit stream (`refs/notes/activity`).
 - **Git Custom Refs (`refs/proposals/`)**: Decision & Proposal dual-state (`liveContent` vs `proposedContent`).
@@ -45,7 +52,8 @@ Non-markdown, strongly-typed machine-readable specification files for `google-an
 | **Book 1** | 🏛️ **[01-ARCHITECTURE_SPEC.md](file:///Users/hkc/Documents/software-factory/docs/01-ARCHITECTURE_SPEC.md)** | **Complete System Architecture & Specification**<br>Provably Minimal 5-Primitive Core Taxonomy (`Entity`, `Delta`, `Contract`, `Edge`, `Proof`), Prototypal Cloning, MECE Edge Engine, Pure Pipeline Functions (P1–P6), DoR/DoD Quality Gates, and `learnings.md` Memory Flywheel. |
 | **Book 2** | 📜 **[02-AI_SDLC_STANDARDS_AND_GAPS.md](file:///Users/hkc/Documents/software-factory/docs/02-AI_SDLC_STANDARDS_AND_GAPS.md)** | **AI-SDLC Standards, Manifestos & Enterprise Gap Audit**<br>12-Factor Agent Methodology (12FA), 16-Factor AI Apps, 12-Factor AgentOps, ISO/IEC 5338:2023, EU AI Act compliance, AIBOM generation, OpenTelemetry GenAI Observability, and Agent WIP Throttling. |
 | **Book 3** | 💻 **[03-SYSTEM_WALKTHROUGH.md](file:///Users/hkc/Documents/software-factory/docs/03-SYSTEM_WALKTHROUGH.md)** | **System Walkthrough & agy SDK Integration Guide**<br>Step-by-step concrete execution walkthrough for a Library Management System, `google-antigravity` Python SDK agent runner code, real-time thought/tool streaming, and DSSE signed PR flow. |
-| **Self-Dogfood**| 🐕 **[SELF_DOGFOODING_GUIDE.md](file:///Users/hkc/Documents/software-factory/docs/SELF_DOGFOODING_GUIDE.md)** | **Self-Dogfooding Guide**<br>Developing `sdlc-factory` with `sdlc-factory` using self-domain spec `.zuzu/domain/sdlc_factory.yaml` and `.githooks/pre-commit`. |
+| **DX Spec** | 💻 **[DEVELOPER_EXPERIENCE_SPEC.md](file:///Users/hkc/Documents/software-factory/docs/DEVELOPER_EXPERIENCE_SPEC.md)** | **Developer Experience Specification**<br>DX workflows for brand new project initiation (`init`) and existing codebase onboarding (`onboard`). |
+| **Self-Dogfood**| 🐕 **[SELF_DOGFOODING_GUIDE.md](file:///Users/hkc/Documents/software-factory/docs/SELF_DOGFOODING_GUIDE.md)** | **Self-Dogfooding Guide**<br>Developing `sdlc-factory` with `sdlc-factory` using self-domain spec `.factory/domain/sdlc_factory.yaml` and `.githooks/pre-commit`. |
 | **Git-Native** | 🐙 **[GIT_NATIVE_SDLC_SPEC.md](file:///Users/hkc/Documents/software-factory/docs/GIT_NATIVE_SDLC_SPEC.md)** | **Git-Native SDLC Specification**<br>Mapping SDLC primitives to native Git constructs: Git Trees/Files, Worktrees as Agent Sandboxes, Git Notes as Activity log, Custom Git Refs for proposals, and Signed Git Tags as Proofs. |
 | **Nomenclature** | 🔤 **[PROJECTION_UNITS_NOMENCLATURE_COMPARISON.md](file:///Users/hkc/Documents/software-factory/docs/PROJECTION_UNITS_NOMENCLATURE_COMPARISON.md)** | **Compiler Nomenclature Paradigm**<br>Selected Option B: Compiler Theory & Phoenix Math Nomenclature (`Delta`, `Contract`, `Edge`, `Proof`). |
 | **Compiler** | 🧬 **[ENTITY_PROJECTION_COMPILER_SPEC.md](file:///Users/hkc/Documents/software-factory/docs/ENTITY_PROJECTION_COMPILER_SPEC.md)** | **Universal Entity Projection Compiler Specification**<br>Formal SDLC terminology for entity-to-entity compilation (Model-to-Model Transformation, Multi-Domain Entity Projection, Intent Projection Engine), and multi-domain projection examples across DevOps, Fintech, Games, and CLM. |
