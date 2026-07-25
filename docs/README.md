@@ -1,13 +1,22 @@
 # 📖 Domain-Model Centric SDLC Factory Documentation Hub
 
-Welcome to the **Domain-Model Centric SDLC Factory** documentation suite. The architecture, standards, proofs, retrospective analysis, ADRs, compiler patterns, Git-Native engine, self-dogfooding guide, developer experience (DX), and opinionated human frameworks are compiled into a clean specification set:
+Welcome to the **Domain-Model Centric SDLC Factory** documentation suite. The architecture, standards, proofs, retrospective analysis, ADRs, compiler patterns, Git-Native engine, self-dogfooding guide, developer experience (DX), TUI console integration, and opinionated human frameworks are compiled into a clean specification set:
 
 ---
 
-## 💻 Developer Experience (DX) Guide
+## 🖥️ Antigravity TUI & 2.0 Console Integration
+📄 **[INTERACTIVE_CONSOLE_INTEGRATION_SPEC.md](file:///Users/hkc/Documents/software-factory/docs/INTERACTIVE_CONSOLE_INTEGRATION_SPEC.md)**
+- **Antigravity TUI**: Slash commands (`/factory`, `/prove`, `/onboard`) and natural language tool calls with Pydantic `response_schema`.
+- **Antigravity 2.0 Console**: 3-Tier Ergonomics UI (Executive Status Strip, Visual MECE DAG Graph, Proposal Redline Diff View).
+- **Antigravity IDE**: Inline Gutter Badges (`✓ Z3 Invariant Proved`) & Git Notes Status Bar Widget.
+
+---
+
+## ⚡ Minimal Universal CLI & Developer Experience
 📄 **[DEVELOPER_EXPERIENCE_SPEC.md](file:///Users/hkc/Documents/software-factory/docs/DEVELOPER_EXPERIENCE_SPEC.md)**
-- **New Project Initiation**: `agy-factory init --name "PaymentGateway" --prompt "..."` (< 10 seconds).
-- **Existing Project Onboarding**: `agy-factory onboard` (< 30 seconds).
+- **New Project Initiation**: `af` in empty directory (< 10 seconds).
+- **Existing Project Onboarding**: `af` in existing codebase (< 30 seconds).
+- **Intent Compilation**: `af "Build payment gateway microservice"`.
 
 ---
 
@@ -52,6 +61,7 @@ Non-markdown, strongly-typed machine-readable specification files for `google-an
 | **Book 1** | 🏛️ **[01-ARCHITECTURE_SPEC.md](file:///Users/hkc/Documents/software-factory/docs/01-ARCHITECTURE_SPEC.md)** | **Complete System Architecture & Specification**<br>Provably Minimal 5-Primitive Core Taxonomy (`Entity`, `Delta`, `Contract`, `Edge`, `Proof`), Prototypal Cloning, MECE Edge Engine, Pure Pipeline Functions (P1–P6), DoR/DoD Quality Gates, and `learnings.md` Memory Flywheel. |
 | **Book 2** | 📜 **[02-AI_SDLC_STANDARDS_AND_GAPS.md](file:///Users/hkc/Documents/software-factory/docs/02-AI_SDLC_STANDARDS_AND_GAPS.md)** | **AI-SDLC Standards, Manifestos & Enterprise Gap Audit**<br>12-Factor Agent Methodology (12FA), 16-Factor AI Apps, 12-Factor AgentOps, ISO/IEC 5338:2023, EU AI Act compliance, AIBOM generation, OpenTelemetry GenAI Observability, and Agent WIP Throttling. |
 | **Book 3** | 💻 **[03-SYSTEM_WALKTHROUGH.md](file:///Users/hkc/Documents/software-factory/docs/03-SYSTEM_WALKTHROUGH.md)** | **System Walkthrough & agy SDK Integration Guide**<br>Step-by-step concrete execution walkthrough for a Library Management System, `google-antigravity` Python SDK agent runner code, real-time thought/tool streaming, and DSSE signed PR flow. |
+| **Console 2.0** | 🖥️ **[INTERACTIVE_CONSOLE_INTEGRATION_SPEC.md](file:///Users/hkc/Documents/software-factory/docs/INTERACTIVE_CONSOLE_INTEGRATION_SPEC.md)** | **Antigravity TUI & 2.0 Console Integration**<br>Slash commands (`/factory`, `/prove`), 3-tier ergonomics UI, and IDE gutter status badges. |
 | **DX Spec** | 💻 **[DEVELOPER_EXPERIENCE_SPEC.md](file:///Users/hkc/Documents/software-factory/docs/DEVELOPER_EXPERIENCE_SPEC.md)** | **Developer Experience Specification**<br>DX workflows for brand new project initiation (`init`) and existing codebase onboarding (`onboard`). |
 | **Self-Dogfood**| 🐕 **[SELF_DOGFOODING_GUIDE.md](file:///Users/hkc/Documents/software-factory/docs/SELF_DOGFOODING_GUIDE.md)** | **Self-Dogfooding Guide**<br>Developing `sdlc-factory` with `sdlc-factory` using self-domain spec `.factory/domain/sdlc_factory.yaml` and `.githooks/pre-commit`. |
 | **Git-Native** | 🐙 **[GIT_NATIVE_SDLC_SPEC.md](file:///Users/hkc/Documents/software-factory/docs/GIT_NATIVE_SDLC_SPEC.md)** | **Git-Native SDLC Specification**<br>Mapping SDLC primitives to native Git constructs: Git Trees/Files, Worktrees as Agent Sandboxes, Git Notes as Activity log, Custom Git Refs for proposals, and Signed Git Tags as Proofs. |
