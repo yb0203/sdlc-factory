@@ -18,6 +18,7 @@ dependencies = [
 ]
 
 [project.scripts]
+af = "sdlc_factory.cli:main"
 agy-factory = "sdlc_factory.cli:main"
 
 [tool.setuptools.packages.find]

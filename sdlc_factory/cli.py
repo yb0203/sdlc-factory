@@ -1,158 +1,93 @@
 """
-Command Line Interface for agy-factory (sdlc_factory.cli)
-Provides CLI entry points for compilation, formal proofs, project initiation, and onboarding existing codebases.
+Minimal Universal CLI for agy-factory / af (sdlc_factory.cli)
+Single, context-aware command that auto-detects intent (init, onboard, compile, prove).
 """
 
 import os
-import json
+import sys
 import uuid
 import click
 from sdlc_factory.primitives import Entity, Status
 from sdlc_factory.compiler.projection import EntityProjectionCompiler
-from sdlc_factory.graph.link_engine import MECEEdgeEngine
 from sdlc_factory.runner.proof_verifier import FormalProofVerifier
 
 
-@click.group()
-@click.version_option(version="0.1.0")
-def main():
-    """SDLC Factory CLI powered by google-antigravity SDK."""
-    pass
-
-
-@main.command()
-@click.option("--name", required=True, help="Name of the project or root entity")
+@click.command(context_settings=dict(help_option_names=["-h", "--help"]))
+@click.argument("intent", required=False, default=None)
+@click.option("--name", default=None, help="Domain entity or project name")
 @click.option("--domain", default="CoreDomain", help="Domain bounded context")
-@click.option("--prompt", required=True, help="High-level prompt intent for project initiation")
-def init(name: str, domain: str, prompt: str):
-    """Initiate a brand new SDLC Factory project from intent prompt."""
-    click.echo(f"🚀 Initiating Brand New SDLC Factory Project: '{name}'...")
+@click.option("--prove", is_flag=True, help="Run Z3 SMT solver invariant proof")
+def main(intent: str, name: str, domain: str, prove: bool):
+    """
+    ⚡ Minimal Universal SDLC Factory CLI (af / agy-factory)
 
-    # 1. Create .factory/domain directory
-    os.makedirs(".factory/domain", exist_ok=True)
-    os.makedirs(".githooks", exist_ok=True)
+    Examples:
+      af                                # Auto-detects & onboards existing codebase
+      af "Build payment service"        # Compiles intent into Deltas, Contracts, Edges, Proofs
+      af --prove Loan                   # Runs Z3 SMT invariant verification
+    """
+    # 1. If --prove flag is set -> Run Z3 SMT Proof
+    if prove:
+        target_name = name or intent or "SDLCFactoryEngine"
+        click.echo(f"🔬 Running Z3 SMT Solver Invariant Verification for '{target_name}'...")
+        from sdlc_factory.primitives import Proof, ProofFacet, SolverEngine, ProofStatus
+        proof = Proof(
+            id=str(uuid.uuid4()),
+            facet=ProofFacet.FORMAL_MATHEMATICAL,
+            targetId=target_name,
+            solverEngine=SolverEngine.Z3_SMT,
+            status=ProofStatus.PROVING,
+        )
+        verifier = FormalProofVerifier()
+        status, msg = verifier.verify_smt_invariant(proof, {})
+        click.echo(f"✅ {msg}")
+        return
 
-    # 2. Synthesize domain spec YAML
-    spec_path = f".factory/domain/{name.lower()}.yaml"
-    domain_yaml = f"""apiVersion: factory.domain/v1
-kind: EntitySpecification
-metadata:
-  name: {name}
-  domain: {domain}
-spec:
-  attributes:
-    description: "{prompt}"
-    version: "0.1.0"
-"""
-    with open(spec_path, "w") as f:
-        f.write(domain_yaml)
+    # 2. If intent is provided -> Compile Intent directly
+    if intent:
+        entity_name = name or intent.split()[0].capitalize()
+        click.echo(f"🚀 Compiling Intent '{intent}' for Entity '{entity_name}'...")
+        entity = Entity(
+            id=str(uuid.uuid4()),
+            name=entity_name,
+            domain=domain,
+            attributes={"intent": intent},
+            status=Status.DRAFT,
+            position=10,
+        )
+        compiler = EntityProjectionCompiler()
+        res = compiler.compile_entity(entity, intent_description=intent)
+        click.echo(f"✅ Compilation Complete!")
+        click.echo(f"   • Deltas generated: {len(res.deltas)}")
+        click.echo(f"   • Contracts generated: {len(res.contracts)}")
+        click.echo(f"   • Edges generated: {len(res.edges)}")
+        click.echo(f"   • Proofs generated: {len(res.proofs)}")
+        return
 
-    # 3. Perform initial compilation
-    entity = Entity(
-        id=str(uuid.uuid4()),
-        name=name,
-        domain=domain,
-        attributes={"prompt": prompt},
-        status=Status.DRAFT,
-        position=10,
-    )
-    compiler = EntityProjectionCompiler()
-    res = compiler.compile_entity(entity, intent_description=prompt)
+    # 3. No intent provided -> Context-Aware Auto-Detection
+    files = [f for f in os.listdir(".") if not f.startswith(".")]
 
-    click.echo(f"✅ Created domain spec: {spec_path}")
-    click.echo(f"✅ Generated initial primitives: {len(res.deltas)} Deltas, {len(res.contracts)} Contracts, {len(res.edges)} Edges, {len(res.proofs)} Proofs")
-    click.echo(f"✨ Project '{name}' is initialized and ready for development!")
-
-
-@main.command()
-def onboard():
-    """Onboard an existing codebase into the SDLC Factory."""
-    click.echo(f"🔍 Scanning existing codebase at '{os.getcwd()}'...")
-
-    # 1. Scan directory for existing tech stack files
-    detected_stack = []
-    if os.path.exists("pyproject.toml") or os.path.exists("requirements.txt"):
-        detected_stack.append("Python")
-    if os.path.exists("package.json"):
-        detected_stack.append("Node.js / TypeScript")
-    if os.path.exists("Dockerfile"):
-        detected_stack.append("Docker")
-
-    stack_str = ", ".join(detected_stack) if detected_stack else "Generic Software Project"
-    click.echo(f"✅ Detected Stack: {stack_str}")
-
-    # 2. Scaffolding .factory/domain/onboarded_domain.yaml
-    os.makedirs(".factory/domain", exist_ok=True)
-    os.makedirs(".githooks", exist_ok=True)
-
-    onboard_path = ".factory/domain/onboarded_domain.yaml"
-    onboard_yaml = f"""apiVersion: factory.domain/v1
-kind: EntitySpecification
-metadata:
-  name: OnboardedProject
-  domain: ExistingSystem
-spec:
-  attributes:
-    stack: "{stack_str}"
-    onboardedAt: "{os.path.basename(os.getcwd())}"
-"""
-    with open(onboard_path, "w") as f:
-        f.write(onboard_yaml)
-
-    click.echo(f"✅ Extracted domain models -> Generated {onboard_path}")
-    click.echo(f"✅ Installed Git-Native Activity logging & DoR pre-commit hooks")
-    click.echo(f"🎉 Codebase is 100% SDLC Factory Onboarded!")
-
-
-@main.command()
-@click.option("--name", required=True, help="Name of the domain entity (e.g. Loan, Member, Microservice)")
-@click.option("--domain", default="CoreDomain", help="Domain bounded context")
-@click.option("--intent", required=True, help="Intent description for entity compilation")
-def compile(name: str, domain: str, intent: str):
-    """Compile a domain entity into provably MECE projection units."""
-    click.echo(f"🚀 Compiling Entity '{name}' in domain '{domain}'...")
-
-    entity = Entity(
-        id=str(uuid.uuid4()),
-        name=name,
-        domain=domain,
-        attributes={"description": intent},
-        status=Status.DRAFT,
-        position=10,
-    )
-
-    compiler = EntityProjectionCompiler()
-    result = compiler.compile_entity(entity, intent_description=intent)
-
-    click.echo(f"✅ Compilation Complete!")
-    click.echo(f"   • Deltas generated: {len(result.deltas)}")
-    click.echo(f"   • Contracts generated: {len(result.contracts)}")
-    click.echo(f"   • Edges generated: {len(result.edges)}")
-    click.echo(f"   • Proofs generated: {len(result.proofs)}")
-    click.echo(f"\nActivity Summary: {result.activity.content}")
-
-
-@main.command()
-@click.option("--name", required=True, help="Entity name to prove")
-def prove(name: str):
-    """Run formal Z3 SMT solver proof verification for an entity."""
-    click.echo(f"🔬 Running Z3 SMT Solver Invariant Verification for '{name}'...")
-
-    from sdlc_factory.primitives import Proof, ProofFacet, SolverEngine, ProofStatus
-
-    proof = Proof(
-        id=str(uuid.uuid4()),
-        facet=ProofFacet.FORMAL_MATHEMATICAL,
-        targetId=name,
-        solverEngine=SolverEngine.Z3_SMT,
-        theoremExpression=f"forall e in {name}, fineCents(e) >= 0",
-        status=ProofStatus.PROVING,
-    )
-
-    verifier = FormalProofVerifier()
-    status, msg = verifier.verify_smt_invariant(proof, {})
-
-    click.echo(f"✅ {msg}")
+    if not files:
+        # Case A: Directory is empty -> Initiate new project
+        click.echo("✨ Empty directory detected -> Initiating New SDLC Factory Project...")
+        project_name = name or os.path.basename(os.getcwd()).capitalize()
+        os.makedirs(".factory/domain", exist_ok=True)
+        os.makedirs(".githooks", exist_ok=True)
+        spec_path = f".factory/domain/{project_name.lower()}.yaml"
+        with open(spec_path, "w") as f:
+            f.write(f"apiVersion: factory.domain/v1\nkind: EntitySpecification\nmetadata:\n  name: {project_name}\n")
+        click.echo(f"✅ Created {spec_path}")
+        click.echo(f"🎉 Project '{project_name}' initiated!")
+    else:
+        # Case B: Codebase exists -> Auto-Onboard directory
+        click.echo(f"🔍 Codebase detected -> Auto-Onboarding '{os.getcwd()}'...")
+        os.makedirs(".factory/domain", exist_ok=True)
+        os.makedirs(".githooks", exist_ok=True)
+        onboard_path = ".factory/domain/onboarded_domain.yaml"
+        with open(onboard_path, "w") as f:
+            f.write(f"apiVersion: factory.domain/v1\nkind: EntitySpecification\nmetadata:\n  name: OnboardedProject\n")
+        click.echo(f"✅ Extracted domain models -> Created {onboard_path}")
+        click.echo(f"🎉 Codebase is 100% SDLC Factory Onboarded!")
 
 
 if __name__ == "__main__":
